@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useState } from 'react'
 import Button from '@shared/atoms/Button'
 import { generateBaseQuery, getFilterTerm } from '@utils/aquarius'
 import { useUserPreferences } from '@context/UserPreferences'
@@ -19,11 +19,9 @@ import { useRouter } from 'next/router'
 import queryString from 'query-string'
 
 import { getResults } from '@components/Search/utils'
-
-interface FeaturedSection {
-  title: string
-  query: SearchQuery
-}
+import { useCancelToken } from '@hooks/useCancelToken'
+import { useDebouncedCallback } from 'use-debounce'
+import { Asset } from '@oceanprotocol/lib'
 
 function AllAssetsButton(): ReactElement {
   return (
@@ -40,15 +38,6 @@ function AllAssetsButton(): ReactElement {
 
 export default function HomePage(): ReactElement {
   const { chainIds } = useUserPreferences()
-  const { featured, hasFeaturedAssets } = useAddressConfig()
-
-  const [queryFeatured, setQueryFeatured] = useState<FeaturedSection[]>([])
-  const [queryRecent, setQueryRecent] = useState<SearchQuery>()
-  const [queryMostSales, setQueryMostSales] = useState<SearchQuery>()
-
-  const { showOnboardingModule } = useUserPreferences()
-
-  const [queryFiware, setQueryFiware] = useState<SearchQuery>()
 
   // maria
 
@@ -92,34 +81,81 @@ export default function HomePage(): ReactElement {
   //     }
   //   }, [chainIds, featured, hasFeaturedAssets])
 
-  useEffect(() => {
-    const baseParamsFiware = {
-      chainIds,
-      sortOptions: {
-        sortBy: SortTermOptions.Created
-      } as SortOptions
-    } as BaseQueryParams
-    const baseQuery = generateBaseQuery(baseParamsFiware)
-    console.log('base query: ', baseQuery)
-    setQueryFiware(generateBaseQuery(baseParamsFiware))
-  }, [chainIds])
+  const [queryResult, setQueryResult] = useState<PagedAssets>()
+  const [displayedAssets, setDisplayAssets] = useState<Asset[]>([])
+  const [defaultParsed, setDefaultParsed] = useState<
+    queryString.ParsedQuery<string>
+  >({
+    sort: 'nft.created',
+    sortOrder: 'desc'
+  })
+  const [loading, setLoading] = useState<boolean>(true)
+  const newCancelToken = useCancelToken() // Utility for canceling requests
+
+  // callback function for page change
+  const updatePage = useCallback((page: number) => {
+    setDefaultParsed((currentQueryParams) => {
+      return {
+        ...currentQueryParams,
+        page: page.toString()
+      }
+    })
+  }, [])
+
+  console.log('displayed: ', displayedAssets)
+
+  // Debounced function to fetch assets
+  const fetchAssets = useDebouncedCallback(
+    async (parsed: queryString.ParsedQuery<string>, chainIds: number[]) => {
+      setLoading(true) // Set loading state
+      const queryResult = await getResults(parsed, chainIds, newCancelToken()) // Call API
+      setDisplayAssets((currentList) => {
+        if (queryResult.results) {
+          return [...currentList, ...queryResult.results]
+        } else {
+          return currentList
+        }
+      })
+      setQueryResult(queryResult) // Set fetched data to state
+
+      setLoading(false) // Reset loading state
+    },
+    500 // Debounce delay
+  )
 
   useEffect(() => {
-    const fetchFiware = async () => {
-      const result = await getResults({ text: 'fiware' }, chainIds)
-      console.log('fetched ', result)
-      return result
+    // Fetch assets if chainIds are available
+    if (chainIds) {
+      fetchAssets(defaultParsed, chainIds) // Call the fetch function with defaults
     }
-    fetchFiware()
-  }, [])
+  }, [chainIds, fetchAssets, defaultParsed])
 
   return (
     <>
       <SearchBar
         isSearchPage
         placeholder="Search for service offerings"
-        initialValue={'fiware'}
+        // initialValue="fiware"
       />
+      <AssetList
+        assets={displayedAssets}
+        showPagination={false}
+        isLoading={loading}
+        page={queryResult?.page}
+        totalPages={queryResult?.totalPages}
+      />
+      {/* <button onClick={() => updatePage(queryResult.page + 1)}>
+        Load more
+      </button> */}
+      {queryResult &&
+        queryResult.page < queryResult.totalPages && ( // Show button if more pages exist
+          <button
+            onClick={() => updatePage(queryResult.page + 1)}
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Load More'}
+          </button>
+        )}
       {/* <SectionQueryResult title="Maria"  /> */}
 
       {/* {showOnboardingModule && (
