@@ -15,6 +15,12 @@
   width: 100%;
 }
 
+.homePageSearch {
+  width: var(--home-brand-logo-size-width);
+  height: var(--home-brand-logo-size-height);
+  max-width: 100%;
+}
+
 .button {
   position: absolute;
   top: 1px;

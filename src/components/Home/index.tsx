@@ -1,27 +1,19 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import Button from '@shared/atoms/Button'
-import { generateBaseQuery, getFilterTerm } from '@utils/aquarius'
 import { useUserPreferences } from '@context/UserPreferences'
-import { SortTermOptions } from '../../@types/aquarius/SearchQuery'
-import SectionQueryResult from './SectionQueryResult'
 import styles from './index.module.css'
-import { useAddressConfig } from '@hooks/useAddressConfig'
-import TopSales from './TopSales'
 // import HomeContent from './Content'
-import Ecosystem from './Ecosystem'
-import OnboardingSection from '../@shared/Onboarding'
-import Container from '../@shared/atoms/Container'
+import Loader from '@components/@shared/atoms/Loader'
 
 import SearchBar from '@components/Header/SearchBar'
-import HomeContent from './Content'
 import AssetList from '@components/@shared/AssetList'
-import { useRouter } from 'next/router'
 import queryString from 'query-string'
 
 import { getResults } from '@components/Search/utils'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { useDebouncedCallback } from 'use-debounce'
 import { Asset } from '@oceanprotocol/lib'
+import { useSearchBarStatus } from '@context/SearchBarStatus'
 
 function AllAssetsButton(): ReactElement {
   return (
@@ -39,48 +31,6 @@ function AllAssetsButton(): ReactElement {
 export default function HomePage(): ReactElement {
   const { chainIds } = useUserPreferences()
 
-  // maria
-
-  //   useEffect(() => {
-  //     const baseParams = {
-  //       chainIds,
-  //       esPaginationOptions: {
-  //         size: 4
-  //       },
-  //       sortOptions: {
-  //         sortBy: SortTermOptions.Created
-  //       } as SortOptions
-  //     } as BaseQueryParams
-
-  //     const baseParamsSales = {
-  //       chainIds,
-  //       esPaginationOptions: {
-  //         size: 4
-  //       },
-  //       sortOptions: {
-  //         sortBy: SortTermOptions.Orders
-  //       } as SortOptions
-  //     } as BaseQueryParams
-
-  //     setQueryRecent(generateBaseQuery(baseParams))
-  //     setQueryMostSales(generateBaseQuery(baseParamsSales))
-
-  //     if (hasFeaturedAssets()) {
-  //       const featuredSections = featured.map((section) => ({
-  //         title: section.title,
-  //         query: generateBaseQuery({
-  //           ...baseParams,
-  //           esPaginationOptions: {
-  //             size: section.assets.length
-  //           },
-  //           filters: [getFilterTerm('_id', section.assets)]
-  //         })
-  //       }))
-
-  //       setQueryFeatured(featuredSections)
-  //     }
-  //   }, [chainIds, featured, hasFeaturedAssets])
-
   const [queryResult, setQueryResult] = useState<PagedAssets>()
   const [displayedAssets, setDisplayAssets] = useState<Asset[]>([])
   const [defaultParsed, setDefaultParsed] = useState<
@@ -88,9 +38,17 @@ export default function HomePage(): ReactElement {
   >({
     sort: 'nft.created',
     sortOrder: 'desc'
+    // text: 'fiware'
   })
   const [loading, setLoading] = useState<boolean>(true)
   const newCancelToken = useCancelToken() // Utility for canceling requests
+
+  console.log(queryResult)
+  const assetsToBeLoaded =
+    (queryResult === undefined ? 0 : queryResult.totalResults) -
+    (displayedAssets === undefined ? 0 : displayedAssets.length)
+
+  const assetsToBeLoadedString = assetsToBeLoaded.toString()
 
   // callback function for page change
   const updatePage = useCallback((page: number) => {
@@ -101,8 +59,6 @@ export default function HomePage(): ReactElement {
       }
     })
   }, [])
-
-  console.log('displayed: ', displayedAssets)
 
   // Debounced function to fetch assets
   const fetchAssets = useDebouncedCallback(
@@ -132,54 +88,35 @@ export default function HomePage(): ReactElement {
 
   return (
     <>
-      <SearchBar
+      {/* <SearchBar
         isSearchPage
         placeholder="Search for service offerings"
         // initialValue="fiware"
-      />
+      /> */}
+      <AllAssetsButton />
       <AssetList
         assets={displayedAssets}
         showPagination={false}
-        isLoading={loading}
         page={queryResult?.page}
         totalPages={queryResult?.totalPages}
       />
-      {/* <button onClick={() => updatePage(queryResult.page + 1)}>
-        Load more
-      </button> */}
+
       {queryResult &&
         queryResult.page < queryResult.totalPages && ( // Show button if more pages exist
-          <button
+          <Button
+            size="small"
+            style="primary"
+            className={styles.loadMoreButton}
             onClick={() => updatePage(queryResult.page + 1)}
-            disabled={loading}
+            disabled={loading || queryResult.totalPages === queryResult.page}
           >
-            {loading ? 'Loading...' : 'Load More'}
-          </button>
+            {loading ? (
+              <Loader message={`Loading...`} />
+            ) : (
+              `Load ${assetsToBeLoadedString} more`
+            )}
+          </Button>
         )}
-      {/* <SectionQueryResult title="Maria"  /> */}
-
-      {/* {showOnboardingModule && (
-        <Container>
-          <OnboardingSection />
-        </Container>
-      )} */}
-      {/* <Ecosystem /> */}
-      {/* <TopSales title="Publishers With Most Sales" /> */}
-      {/* <HomeContent /> */}
-      {/* {hasFeaturedAssets() && (
-        <>
-          {queryFeatured.map((section, i) => (
-            <SectionQueryResult
-              key={`${section.title}-${i}`}
-              title={section.title}
-              query={section.query}
-            />
-          ))}
-        </>
-      )} */}
-      {/* <SectionQueryResult title="Recently Published" query={queryRecent} /> */}
-      {/* <SectionQueryResult title="Most Sales" query={queryMostSales} /> */}
-      {/* <AllAssetsButton /> */}
     </>
   )
 }

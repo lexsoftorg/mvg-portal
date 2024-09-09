@@ -14,6 +14,7 @@ import { addExistingParamsToUrl } from '../Search/utils'
 import { useRouter } from 'next/router'
 import { animated, useSpring } from 'react-spring'
 import { useSearchBarStatus } from '@context/SearchBarStatus'
+import classNames from 'classnames'
 
 async function emptySearch() {
   const searchParams = new URLSearchParams(window?.location.href)
@@ -23,18 +24,26 @@ async function emptySearch() {
     await addExistingParamsToUrl(location, ['text', 'owner', 'tags'])
   }
 }
+const cx = classNames.bind(styles)
 
 export default function SearchBar({
   placeholder,
   initialValue,
-  isSearchPage
+  isSearchPage,
+  isHome
 }: {
   placeholder?: string
   initialValue?: string
   isSearchPage?: boolean
+  isHome?: boolean
 }): ReactElement {
   const router = useRouter()
-  const [value, setValue] = useState(initialValue || '')
+  const [value, setValue] = useState(() => {
+    if (isHome) {
+      return 'fiware'
+    }
+    return initialValue || ''
+  })
   const parsed = router.query
   const searchBarRef = useRef<HTMLInputElement>(null)
   const {
@@ -43,6 +52,8 @@ export default function SearchBar({
     homeSearchBarFocus,
     setHomeSearchBarFocus
   } = useSearchBarStatus()
+
+  console.log('is home: ', isHome)
 
   useEffect(() => {
     if (parsed?.text || parsed?.owner)
@@ -69,8 +80,6 @@ export default function SearchBar({
     if (value === '') setValue(' ')
 
     const urlEncodedValue = encodeURIComponent(value)
-    console.log('unencoded: ', value)
-    console.log('encoded: ', urlEncodedValue)
     const url = await addExistingParamsToUrl(location, [
       'text',
       'owner',
@@ -97,14 +106,17 @@ export default function SearchBar({
 
   const springStile = useSpring({
     transform:
-      isSearchPage || isSearchBarVisible
+      isSearchPage || isSearchBarVisible || isHome
         ? 'translateY(0%)'
         : 'translateY(-150%)',
     config: { mass: 1, tension: 140, friction: 12 }
   })
 
   return (
-    <form className={styles.search} autoComplete={!value ? 'off' : 'on'}>
+    <form
+      className={cx(styles.search, { [styles.homePageSearch]: isHome })}
+      autoComplete={!value ? 'off' : 'on'}
+    >
       <animated.div style={springStile} className={styles.springContainer}>
         <InputElement
           ref={searchBarRef}

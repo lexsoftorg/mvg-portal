@@ -32,18 +32,25 @@ export default function Page({
   return (
     <>
       <Seo title={title} description={description} uri={uri} />
+      {isHome && (
+        <PageHeader
+          title={title}
+          center={headerCenter}
+          description={description}
+          isHome={isHome}
+        />
+      )}
       <Container>
         <SearchBar
           placeholder="Search for service offerings"
           isSearchPage={isSearchPage}
         />
         {isAssetPage && !allowExternalContent && <ExternalContentWarning />}
-        {title && !noPageHeader && (
+        {title && !noPageHeader && !isHome && (
           <PageHeader
-            title={isHome ? title : <>{title.slice(0, 400)}</>}
+            title={title.slice(0, 400)}
             center={headerCenter}
             description={description}
-            isHome={isHome}
           />
         )}
         {children}
