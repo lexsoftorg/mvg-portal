@@ -14,6 +14,8 @@ import { useCancelToken } from '@hooks/useCancelToken'
 import { useDebouncedCallback } from 'use-debounce'
 import { Asset } from '@oceanprotocol/lib'
 import { useSearchBarStatus } from '@context/SearchBarStatus'
+import Accordion from '@components/@shared/Accordion'
+import accordionContent from '../../../content/pages/home/accordionsContent.json'
 
 function AllAssetsButton(): ReactElement {
   return (
@@ -117,6 +119,23 @@ export default function HomePage(): ReactElement {
             )}
           </Button>
         )}
+      <div className={styles.accordionsContainer}>
+        {accordionContent.map((accordionElement) => {
+          const { id, title, content } = accordionElement
+          return (
+            <Accordion key={id} title={title}>
+              <ol>
+                {content.map((accordionParagraph) => {
+                  const { keyword, description } = accordionParagraph
+                  return (
+                    <li key={id + keyword}>{keyword + ' ' + description}</li>
+                  )
+                })}
+              </ol>
+            </Accordion>
+          )
+        })}
+      </div>
     </>
   )
 }
