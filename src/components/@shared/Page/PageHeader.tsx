@@ -1,6 +1,5 @@
 import SearchBar from '@components/Header/SearchBar'
 import BrandLogo from '@images/brand-logo-white.svg'
-import HeaderBackground from '@images/FIWAREMarketplace_WHITE.svg'
 import Markdown from '@shared/Markdown'
 import classNames from 'classnames/bind'
 import { ReactElement } from 'react'
