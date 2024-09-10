@@ -1,0 +1,41 @@
+.sectionDescription {
+  font-size: var(--font-size-h2);
+}
+
+.gradientText {
+  background-image: linear-gradient(90deg, rgb(93, 192, 207), rgb(0, 46, 103));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.accordionsContainer {
+  max-width: 40rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer);
+  margin-bottom: var(--spacer);
+  margin-top: calc(var(--spacer) * 3);
+}
+
+.accordionsContainer > div {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: calc(var(--spacer) / 2) 1rem;
+  width: fit-content;
+  transition: all 0.3s ease;
+  font-size: var(--font-size-h4);
+  overflow-y: hidden;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.accordionsContainer ol {
+  list-style-type: square;
+}
+
+.accordionsContainer li {
+  margin-top: var(--spacer);
+}

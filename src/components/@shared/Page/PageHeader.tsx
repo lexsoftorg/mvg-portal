@@ -1,5 +1,6 @@
 import SearchBar from '@components/Header/SearchBar'
-import BrandLogo from '@images/brand-logo.svg'
+import BrandLogo from '@images/brand-logo-white.svg'
+import HeaderBackground from '@images/FIWAREMarketplace_WHITE.svg'
 import Markdown from '@shared/Markdown'
 import classNames from 'classnames/bind'
 import { ReactElement } from 'react'
@@ -23,7 +24,8 @@ export default function PageHeader({
 }): ReactElement {
   const styleClasses = cx({
     header: true,
-    center
+    center,
+    isHome
   })
 
   return (
@@ -34,6 +36,10 @@ export default function PageHeader({
           {description && (
             <Markdown text={description} className={styles.subtitle} />
           )}
+          <SearchBar
+            isHome={isHome}
+            placeholder="Search for service offerings"
+          />
         </div>
       ) : (
         <div>

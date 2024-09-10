@@ -7,14 +7,12 @@
   color: var(--color-secondary);
 }
 
-.section h3 span {
-  font-size: var(--font-size-small);
-  color: var(--color-secondary);
-  font-family: var(--font-family-base);
-  font-weight: var(--font-weight-base);
-}
-
 .section [class*='button'],
 .allAssetsButton {
   margin-top: var(--spacer);
+}
+
+.loadMoreButton {
+  display: block;
+  margin: var(--spacer) auto;
 }

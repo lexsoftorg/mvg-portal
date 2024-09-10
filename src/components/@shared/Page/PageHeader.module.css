@@ -1,5 +1,25 @@
 .header {
   margin-bottom: calc(var(--spacer) * 2);
+  position: relative;
+}
+
+.isHome {
+  padding: calc(var(--spacer) * 3) 0;
+  background-image: linear-gradient(
+      to right bottom,
+      rgb(93, 192, 207),
+      rgb(0, 46, 103)
+    ),
+    url('../../../@images/FIWAREMarketplace_Visual_Opacity35_1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  max-width: none;
+}
+
+.headerBg {
+  position: absolute;
 }
 
 .title {
@@ -17,6 +37,7 @@
 .homeTitleContainer {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   justify-content: center;
   align-items: center;
 }
@@ -34,6 +55,7 @@
 .homeTitleContainer .subtitle p {
   margin: calc(var(--spacer) / 4) 0;
   font-size: var(--font-size-h3);
+  color: var(--brand-white);
   max-width: none;
 }
 
