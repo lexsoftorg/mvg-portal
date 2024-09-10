@@ -60,7 +60,7 @@
 .open .content {
   max-height: 35rem;
   visibility: visible;
-  overflow-y: scroll;
+  overflow-y: hidden;
   transition: 0.3s max-height;
 }
 

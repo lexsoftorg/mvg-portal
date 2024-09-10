@@ -41,10 +41,13 @@ export default function Page({
         />
       )}
       <Container>
-        <SearchBar
-          placeholder="Search for service offerings"
-          isSearchPage={isSearchPage}
-        />
+        {!isHome && (
+          <SearchBar
+            placeholder="Search for service offerings"
+            isSearchPage={isSearchPage}
+          />
+        )}
+
         {isAssetPage && !allowExternalContent && <ExternalContentWarning />}
         {title && !noPageHeader && !isHome && (
           <PageHeader

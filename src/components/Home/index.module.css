@@ -7,13 +7,6 @@
   color: var(--color-secondary);
 }
 
-.section h3 span {
-  font-size: var(--font-size-small);
-  color: var(--color-secondary);
-  font-family: var(--font-family-base);
-  font-weight: var(--font-weight-base);
-}
-
 .section [class*='button'],
 .allAssetsButton {
   margin-top: var(--spacer);
@@ -22,27 +15,4 @@
 .loadMoreButton {
   display: block;
   margin: var(--spacer) auto;
-}
-.accordionsContainer {
-  max-width: 40rem;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacer);
-}
-
-.accordionsContainer > * {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin: 10px 0;
-  padding: calc(var(--spacer) / 2) 1rem;
-  width: fit-content;
-  transition: all 0.3s ease;
-  font-size: var(--font-size-h4);
-  cursor: pointer;
-  margin: 0 auto;
-}
-
-.accordionsContainer ol {
-  list-style-type: square;
 }

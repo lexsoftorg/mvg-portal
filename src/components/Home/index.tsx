@@ -2,10 +2,8 @@ import { ReactElement, useCallback, useEffect, useState } from 'react'
 import Button from '@shared/atoms/Button'
 import { useUserPreferences } from '@context/UserPreferences'
 import styles from './index.module.css'
-// import HomeContent from './Content'
 import Loader from '@components/@shared/atoms/Loader'
 
-import SearchBar from '@components/Header/SearchBar'
 import AssetList from '@components/@shared/AssetList'
 import queryString from 'query-string'
 
@@ -13,9 +11,10 @@ import { getResults } from '@components/Search/utils'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { useDebouncedCallback } from 'use-debounce'
 import { Asset } from '@oceanprotocol/lib'
-import { useSearchBarStatus } from '@context/SearchBarStatus'
-import Accordion from '@components/@shared/Accordion'
 import accordionContent from '../../../content/pages/home/accordionsContent.json'
+import Container from '@components/@shared/atoms/Container'
+import OnboardingSection from '@components/@shared/Onboarding'
+import About from './About'
 
 function AllAssetsButton(): ReactElement {
   return (
@@ -31,7 +30,7 @@ function AllAssetsButton(): ReactElement {
 }
 
 export default function HomePage(): ReactElement {
-  const { chainIds } = useUserPreferences()
+  const { chainIds, showOnboardingModule } = useUserPreferences()
 
   const [queryResult, setQueryResult] = useState<PagedAssets>()
   const [displayedAssets, setDisplayAssets] = useState<Asset[]>([])
@@ -39,13 +38,12 @@ export default function HomePage(): ReactElement {
     queryString.ParsedQuery<string>
   >({
     sort: 'nft.created',
-    sortOrder: 'desc'
-    // text: 'fiware'
+    sortOrder: 'desc',
+    text: 'fiware'
   })
   const [loading, setLoading] = useState<boolean>(true)
-  const newCancelToken = useCancelToken() // Utility for canceling requests
+  const newCancelToken = useCancelToken()
 
-  console.log(queryResult)
   const assetsToBeLoaded =
     (queryResult === undefined ? 0 : queryResult.totalResults) -
     (displayedAssets === undefined ? 0 : displayedAssets.length)
@@ -90,21 +88,21 @@ export default function HomePage(): ReactElement {
 
   return (
     <>
-      {/* <SearchBar
-        isSearchPage
-        placeholder="Search for service offerings"
-        // initialValue="fiware"
-      /> */}
-      <AllAssetsButton />
-      <AssetList
-        assets={displayedAssets}
-        showPagination={false}
-        page={queryResult?.page}
-        totalPages={queryResult?.totalPages}
-      />
+      {showOnboardingModule && (
+        <Container>
+          <OnboardingSection />
+        </Container>
+      )}
 
-      {queryResult &&
-        queryResult.page < queryResult.totalPages && ( // Show button if more pages exist
+      <section className={styles.section}>
+        <h3>Fiware Assets</h3>
+        <AssetList
+          assets={displayedAssets}
+          showPagination={false}
+          page={queryResult?.page}
+          totalPages={queryResult?.totalPages}
+        />
+        {queryResult && queryResult.page < queryResult.totalPages && (
           <Button
             size="small"
             style="primary"
@@ -119,23 +117,9 @@ export default function HomePage(): ReactElement {
             )}
           </Button>
         )}
-      <div className={styles.accordionsContainer}>
-        {accordionContent.map((accordionElement) => {
-          const { id, title, content } = accordionElement
-          return (
-            <Accordion key={id} title={title}>
-              <ol>
-                {content.map((accordionParagraph) => {
-                  const { keyword, description } = accordionParagraph
-                  return (
-                    <li key={id + keyword}>{keyword + ' ' + description}</li>
-                  )
-                })}
-              </ol>
-            </Accordion>
-          )
-        })}
-      </div>
+      </section>
+      <AllAssetsButton />
+      <About accordionContent={accordionContent} />
     </>
   )
 }
