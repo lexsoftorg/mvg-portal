@@ -1,21 +1,16 @@
 .header {
   margin-bottom: calc(var(--spacer) * 2);
-  position: relative;
 }
 
 .isHome {
   padding: calc(var(--spacer) * 3) 0;
-  background-image: linear-gradient(
-      to right bottom,
-      rgb(93, 192, 207),
-      rgb(0, 46, 103)
-    ),
-    url('../../../@images/FIWAREMarketplace_Visual_Opacity35_1.png');
-  background-size: cover;
+  background-color: var(--blue-500);
+  background-image: url('/images/Banner.svg');
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: bottom;
 
   max-width: none;
+  min-height: calc(var(--spacer) * 20);
 }
 
 .headerBg {

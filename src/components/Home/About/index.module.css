@@ -1,41 +1,78 @@
-.sectionDescription {
-  font-size: var(--font-size-h2);
-}
-
-.gradientText {
-  background-image: linear-gradient(90deg, rgb(93, 192, 207), rgb(0, 46, 103));
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-.accordionsContainer {
-  max-width: 40rem;
-  margin: 0 auto;
+section#about {
   display: flex;
   flex-direction: column;
-  gap: var(--spacer);
-  margin-bottom: var(--spacer);
-  margin-top: calc(var(--spacer) * 3);
+  gap: calc(var(--spacer) * 3.5);
+}
+.sectionTitle {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-bold);
+  font-size: 1.86rem;
+  color: var(--brand-blue);
+}
+#coreStatement {
+  color: var(--brand-gray);
+  width: max(40%, 300px);
+  line-height: var(--line-height);
+  margin: auto;
+}
+.container--two-columns {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--spacer) / 2);
+  width: 100%;
 }
 
-.accordionsContainer > div {
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin: 10px 0;
-  padding: calc(var(--spacer) / 2) 1rem;
-  width: fit-content;
-  transition: all 0.3s ease;
-  font-size: var(--font-size-h4);
-  overflow-y: hidden;
-  cursor: pointer;
-  margin: 0 auto;
+.leftChild,
+.rightChild {
+  width: 50%;
 }
 
-.accordionsContainer ol {
-  list-style-type: square;
+.leftChild {
+  margin: auto;
 }
 
-.accordionsContainer li {
-  margin-top: var(--spacer);
+.rightChild {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.rightChild svg#rightChildImage {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  margin: auto;
+}
+
+.rightChild svg#rightChildLogo {
+  width: 80%;
+  aspect-ratio: 3 / 1;
+  margin: 0;
+}
+
+.container--two-by-four {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: calc(var(--spacer) * 2);
+  box-sizing: border-box;
+}
+
+.container-centered-text {
+  background-color: var(--blue-100);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: var(--spacer) calc(var(--spacer) * 10);
+  text-align: center;
+}
+.container-centered-text a {
+  background-color: var(--blue-500);
+}
+
+.container-centered-text p,
+.container--two-columns p {
+  font-size: var(--font-size-large);
 }

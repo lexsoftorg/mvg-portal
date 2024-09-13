@@ -1,0 +1,40 @@
+.cardContainer {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+
+  font-family: var(--font-family-base);
+
+  padding: calc(var(--spacer) / 2);
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  transition: transform 0.2s ease-in-out;
+}
+
+.cardContainer:hover {
+  transform: translateY(-5px);
+}
+
+.cardIcon {
+  height: 50px;
+  width: auto;
+  display: block;
+  margin: 0;
+  margin-bottom: var(--spacer);
+}
+
+.cardTitle {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height);
+  font-size: var(--font-size-large);
+  min-height: calc(var(--spacer) * 2);
+
+  margin: 0;
+}
+
+.cardDescription {
+  margin: calc(var(--spacer) / 10) 0 0 0;
+}

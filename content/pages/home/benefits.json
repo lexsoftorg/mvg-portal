@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "image": "https://via.placeholder.com/50",
+    "title": "Open Source",
+    "description": "A market-driving Open Source software, combining components and standard architectures to enable the connection to IoT with Context Information Management and Big Data services in the Cloud."
+  },
+  {
+    "id": 2,
+    "image": "https://via.placeholder.com/50",
+    "title": "Smart Usage of Data",
+    "description": "Interoperability is guaranteed through the utilization of the data models de facto standardized in our Smart Data Models program in combination with Standard APIs for data management and exchange."
+  },
+  {
+    "id": 3,
+    "image": "https://via.placeholder.com/50",
+    "title": "Smart Solutions & Services",
+    "description": "The entire value chain is taken into account, allowing for seamless plug-and-play integration with third-party solutions and services."
+  },
+  {
+    "id": 4,
+    "image": "https://via.placeholder.com/50",
+    "title": "FIWARE Ecosystem",
+    "description": "Consisting of more than 350 cities, 40 iHubs, a FIWARE Accelerator Programme, and strategic partnerships with GSMA, TM Forum, IUDX, Alastria, and ETSI, amongst others."
+  },
+  {
+    "id": 5,
+    "image": "https://via.placeholder.com/50",
+    "title": "Becoming Truly Smart",
+    "description": "The FIWARE Reference Architecture for Smart Cities eliminates vertical silos by establishing a Context Information Management layer that offers a comprehensive overview of city activities. By sharing city data publicly and integrating data from various sectors, city governance systems can be improved."
+  },
+  {
+    "id": 6,
+    "image": "https://via.placeholder.com/50",
+    "title": "Unleashing Right-Time Open Data",
+    "description": "Third-party solution providers can benefit from real-time open data published by the city and made available through standard APIs. They can then sell their solutions to cities worldwide, targeting a larger market and boosting business."
+  },
+  {
+    "id": 7,
+    "image": "https://via.placeholder.com/50",
+    "title": "Common Information Models",
+    "description": "Thanks to 'de facto' standard information models, achieving full interoperability among different city systems incurs no costs and enables system portability across various sectors and cities."
+  },
+  {
+    "id": 8,
+    "image": "https://via.placeholder.com/50",
+    "title": "Thriving Data Economy",
+    "description": "Once data is made publicly accessible and exchangeable, city administrators can offer higher-value services to citizens, improving public service delivery and benefiting cities, private businesses, and citizens."
+  }
+]

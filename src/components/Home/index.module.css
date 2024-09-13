@@ -1,5 +1,6 @@
 .section {
-  margin-top: calc(var(--spacer) * 2);
+  margin-top: calc(var(--spacer) * 3.5);
+  margin-bottom: calc(var(--spacer) * 3.5);
 }
 
 .section h3 {
@@ -12,6 +13,9 @@
   margin-top: var(--spacer);
 }
 
+div#assetsList {
+  min-height: 20vh;
+}
 .loadMoreButton {
   display: block;
   margin: var(--spacer) auto;

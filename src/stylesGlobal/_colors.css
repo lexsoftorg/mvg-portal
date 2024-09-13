@@ -9,6 +9,9 @@
   --brand-violet: #b900ff;
   --brand-gaia-x-blue: #283375;
 
+  --blue-100: #e5eff7;
+  --blue-500: #005fb9;
+
   --brand-gradient: linear-gradient(
     to right bottom,
     var(--brand-blue-light),

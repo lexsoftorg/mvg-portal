@@ -11,7 +11,6 @@ import { getResults } from '@components/Search/utils'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { useDebouncedCallback } from 'use-debounce'
 import { Asset } from '@oceanprotocol/lib'
-import accordionContent from '../../../content/pages/home/accordionsContent.json'
 import Container from '@components/@shared/atoms/Container'
 import OnboardingSection from '@components/@shared/Onboarding'
 import About from './About'
@@ -96,12 +95,15 @@ export default function HomePage(): ReactElement {
 
       <section className={styles.section}>
         <h3>Fiware Assets</h3>
-        <AssetList
-          assets={displayedAssets}
-          showPagination={false}
-          page={queryResult?.page}
-          totalPages={queryResult?.totalPages}
-        />
+        <div id={styles.assetsList}>
+          <AssetList
+            assets={displayedAssets}
+            showPagination={false}
+            page={queryResult?.page}
+            totalPages={queryResult?.totalPages}
+          />
+        </div>
+
         {queryResult && queryResult.page < queryResult.totalPages && (
           <Button
             size="small"
@@ -117,9 +119,9 @@ export default function HomePage(): ReactElement {
             )}
           </Button>
         )}
+        <AllAssetsButton />
       </section>
-      <AllAssetsButton />
-      <About accordionContent={accordionContent} />
+      <About />
     </>
   )
 }
