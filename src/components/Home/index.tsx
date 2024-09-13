@@ -11,7 +11,6 @@ import { getResults } from '@components/Search/utils'
 import { useCancelToken } from '@hooks/useCancelToken'
 import { useDebouncedCallback } from 'use-debounce'
 import { Asset } from '@oceanprotocol/lib'
-import accordionContent from '../../../content/pages/home/accordionsContent.json'
 import Container from '@components/@shared/atoms/Container'
 import OnboardingSection from '@components/@shared/Onboarding'
 import About from './About'
@@ -37,6 +36,7 @@ export default function HomePage(): ReactElement {
   const [defaultParsed, setDefaultParsed] = useState<
     queryString.ParsedQuery<string>
   >({
+    offset: '12',
     sort: 'nft.created',
     sortOrder: 'desc',
     text: 'fiware'
@@ -60,11 +60,10 @@ export default function HomePage(): ReactElement {
     })
   }, [])
 
-  // Debounced function to fetch assets
   const fetchAssets = useDebouncedCallback(
     async (parsed: queryString.ParsedQuery<string>, chainIds: number[]) => {
-      setLoading(true) // Set loading state
-      const queryResult = await getResults(parsed, chainIds, newCancelToken()) // Call API
+      setLoading(true)
+      const queryResult = await getResults(parsed, chainIds, newCancelToken())
       setDisplayAssets((currentList) => {
         if (queryResult.results) {
           return [...currentList, ...queryResult.results]
@@ -72,17 +71,16 @@ export default function HomePage(): ReactElement {
           return currentList
         }
       })
-      setQueryResult(queryResult) // Set fetched data to state
+      setQueryResult(queryResult)
 
-      setLoading(false) // Reset loading state
+      setLoading(false)
     },
-    500 // Debounce delay
+    500
   )
 
   useEffect(() => {
-    // Fetch assets if chainIds are available
     if (chainIds) {
-      fetchAssets(defaultParsed, chainIds) // Call the fetch function with defaults
+      fetchAssets(defaultParsed, chainIds)
     }
   }, [chainIds, fetchAssets, defaultParsed])
 
@@ -94,32 +92,47 @@ export default function HomePage(): ReactElement {
         </Container>
       )}
 
-      <section className={styles.section}>
+      <section id="fiwareAssets" className={styles.section}>
         <h3>Fiware Assets</h3>
-        <AssetList
-          assets={displayedAssets}
-          showPagination={false}
-          page={queryResult?.page}
-          totalPages={queryResult?.totalPages}
-        />
-        {queryResult && queryResult.page < queryResult.totalPages && (
-          <Button
-            size="small"
-            style="primary"
-            className={styles.loadMoreButton}
-            onClick={() => updatePage(queryResult.page + 1)}
-            disabled={loading || queryResult.totalPages === queryResult.page}
-          >
-            {loading ? (
-              <Loader message={`Loading...`} />
-            ) : (
-              `Load ${assetsToBeLoadedString} more`
-            )}
-          </Button>
-        )}
+        <div id={styles.assetsList}>
+          <AssetList
+            assets={displayedAssets}
+            showPagination={false}
+            page={queryResult?.page}
+            totalPages={queryResult?.totalPages}
+          />
+        </div>
+
+        <div id={styles.buttonsGroup}>
+          {queryResult && queryResult.page < queryResult.totalPages && (
+            <Button
+              className={styles.loadMoreButton}
+              onClick={() => updatePage(queryResult.page + 1)}
+              disabled={loading || queryResult.totalPages === queryResult.page}
+            >
+              {loading ? (
+                <Loader message={`Loading...`} />
+              ) : (
+                `Load ${assetsToBeLoadedString} more`
+              )}
+            </Button>
+          )}
+          {queryResult && queryResult.page !== 1 && (
+            <Button
+              to="#fiwareAssets"
+              onClick={() => {
+                setDisplayAssets([])
+                updatePage(1)
+              }}
+            >
+              See less
+            </Button>
+          )}
+        </div>
+
+        <AllAssetsButton />
       </section>
-      <AllAssetsButton />
-      <About accordionContent={accordionContent} />
+      <About />
     </>
   )
 }

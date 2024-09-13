@@ -1,5 +1,6 @@
 .section {
-  margin-top: calc(var(--spacer) * 2);
+  margin-top: calc(var(--spacer) * 3.5);
+  margin-bottom: calc(var(--spacer) * 3.5);
 }
 
 .section h3 {
@@ -12,7 +13,16 @@
   margin-top: var(--spacer);
 }
 
-.loadMoreButton {
-  display: block;
+div#assetsList {
+  /* min-height: 50vh; */
+}
+
+.section #buttonsGroup {
+  display: flex;
+  gap: var(--spacer);
+  justify-content: center;
   margin: var(--spacer) auto;
+}
+.loadMoreButton {
+  background-color: var(--blue-500);
 }

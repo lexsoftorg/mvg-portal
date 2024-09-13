@@ -1,5 +1,6 @@
 import SearchBar from '@components/Header/SearchBar'
 import BrandLogo from '@images/brand-logo-white.svg'
+import BannerImage from '@images/Banner.svg'
 import Markdown from '@shared/Markdown'
 import classNames from 'classnames/bind'
 import { ReactElement } from 'react'
@@ -31,7 +32,7 @@ export default function PageHeader({
     <header className={styleClasses}>
       {isHome ? (
         <div className={styles.homeTitleContainer}>
-          <BrandLogo />
+          <BrandLogo id={styles.logo} />
           {description && (
             <Markdown text={description} className={styles.subtitle} />
           )}
