@@ -14,9 +14,15 @@
 }
 
 div#assetsList {
-  min-height: 20vh;
+  /* min-height: 50vh; */
+}
+
+.section #buttonsGroup {
+  display: flex;
+  gap: var(--spacer);
+  justify-content: center;
+  margin: var(--spacer) auto;
 }
 .loadMoreButton {
-  display: block;
-  margin: var(--spacer) auto;
+  background-color: var(--blue-500);
 }

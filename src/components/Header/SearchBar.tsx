@@ -38,12 +38,7 @@ export default function SearchBar({
   isHome?: boolean
 }): ReactElement {
   const router = useRouter()
-  const [value, setValue] = useState(() => {
-    if (isHome) {
-      return 'fiware'
-    }
-    return initialValue || ''
-  })
+  const [value, setValue] = useState(() => initialValue || '')
   const parsed = router.query
   const searchBarRef = useRef<HTMLInputElement>(null)
   const {

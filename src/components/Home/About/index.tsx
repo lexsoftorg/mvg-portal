@@ -46,11 +46,14 @@ export default function About() {
             end-user utilization. This can create challenges in implementing
             smart city initiatives and hinder the participation of startups and
             smaller providers, leading to unequal opportunities and limited
-            local economic development. FIWARE reference architectures and
-            technologies have been widely and successfully adopted for
-            implementations in various domains globally. With FIWARE, cities can
-            achieve transformation with minimum effort and great impact by
-            adopting common standard APIs and information models.
+            local economic development.
+          </p>
+          <p>
+            FIWARE reference architectures and technologies have been widely and
+            successfully adopted for implementations in various domains
+            globally. With FIWARE, cities can achieve transformation with
+            minimum effort and great impact by adopting common standard APIs and
+            information models.
           </p>
         </div>
         <div className={styles.rightChild}>

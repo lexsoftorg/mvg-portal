@@ -11,7 +11,7 @@ section#about {
 }
 #coreStatement {
   color: var(--brand-gray);
-  width: max(40%, 300px);
+  width: max(50%, 300px);
   line-height: var(--line-height);
   margin: auto;
 }
@@ -40,7 +40,7 @@ section#about {
 
 .rightChild svg#rightChildImage {
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 2 / 1.5;
   margin: auto;
 }
 
