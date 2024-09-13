@@ -13,10 +13,6 @@
   margin-top: var(--spacer);
 }
 
-div#assetsList {
-  /* min-height: 50vh; */
-}
-
 .section #buttonsGroup {
   display: flex;
   gap: var(--spacer);

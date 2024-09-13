@@ -48,8 +48,6 @@ export default function SearchBar({
     setHomeSearchBarFocus
   } = useSearchBarStatus()
 
-  console.log('is home: ', isHome)
-
   useEffect(() => {
     if (parsed?.text || parsed?.owner)
       setValue((parsed?.text || parsed?.owner) as string)

@@ -6,16 +6,28 @@ import removeMarkdown from 'remove-markdown'
 import Publisher from '@shared/Publisher'
 import AssetType from '@shared/AssetType'
 import NetworkName from '@shared/NetworkName'
-import styles from './index.module.css'
+
 import { getServiceByName } from '@utils/ddo'
 import { useUserPreferences } from '@context/UserPreferences'
 import { formatNumber } from '@utils/numbers'
 
+import styles from './index.module.css'
+
 export declare type AssetTeaserProps = {
-  asset: AssetExtended
+  asset: AssetExtended | null
   noPublisher?: boolean
   noDescription?: boolean
   noPrice?: boolean
+}
+
+export function AssetPlaceholder() {
+  return (
+    <div className={styles.emptyAsset}>
+      <div className={styles.placeholderHeader}></div>
+      <div className={styles.placeholderBody}></div>
+      <div className={styles.placeholderFooter}></div>
+    </div>
+  )
 }
 
 export default function AssetTeaser({
