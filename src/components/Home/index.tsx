@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import Button from '@shared/atoms/Button'
 import { useUserPreferences } from '@context/UserPreferences'
 import styles from './index.module.css'
@@ -14,6 +14,13 @@ import { Asset } from '@oceanprotocol/lib'
 import Container from '@components/@shared/atoms/Container'
 import OnboardingSection from '@components/@shared/Onboarding'
 import About from './About'
+
+const initialQueryParams = {
+  offset: '12',
+  sort: 'nft.created',
+  sortOrder: 'desc',
+  text: 'fiware'
+}
 
 function AllAssetsButton(): ReactElement {
   return (
@@ -33,14 +40,8 @@ export default function HomePage(): ReactElement {
 
   const [queryResult, setQueryResult] = useState<PagedAssets>()
   const [displayedAssets, setDisplayAssets] = useState<Asset[]>([])
-  const [defaultParsed, setDefaultParsed] = useState<
-    queryString.ParsedQuery<string>
-  >({
-    offset: '12',
-    sort: 'nft.created',
-    sortOrder: 'desc',
-    text: 'fiware'
-  })
+  const [defaultParsed, setDefaultParsed] =
+    useState<queryString.ParsedQuery<string>>(initialQueryParams)
   const [loading, setLoading] = useState<boolean>(true)
   const newCancelToken = useCancelToken()
 
@@ -65,6 +66,9 @@ export default function HomePage(): ReactElement {
       setLoading(true)
       const queryResult = await getResults(parsed, chainIds, newCancelToken())
       setDisplayAssets((currentList) => {
+        if (parsed.page === undefined) {
+          return queryResult.results
+        }
         if (queryResult.results) {
           return [...currentList, ...queryResult.results]
         } else {
@@ -84,6 +88,14 @@ export default function HomePage(): ReactElement {
     }
   }, [chainIds, fetchAssets, defaultParsed])
 
+  const refScrollUp = useRef<HTMLDivElement>(null)
+
+  const handleScrollUp = () => {
+    if (refScrollUp.current) {
+      refScrollUp.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <>
       {showOnboardingModule && (
@@ -92,11 +104,13 @@ export default function HomePage(): ReactElement {
         </Container>
       )}
 
-      <section id="fiwareAssets" className={styles.section}>
-        <h3>Fiware Assets</h3>
+      <div ref={refScrollUp} className={styles.section}>
+        <h3>FIWARE Assets</h3>
         <div id={styles.assetsList}>
           <AssetList
             assets={displayedAssets}
+            defaultAssetNumber={12}
+            isLoading={loading && displayedAssets.length === 0}
             showPagination={false}
             page={queryResult?.page}
             totalPages={queryResult?.totalPages}
@@ -117,12 +131,11 @@ export default function HomePage(): ReactElement {
               )}
             </Button>
           )}
-          {queryResult && queryResult.page !== 1 && (
+          {displayedAssets.length !== 0 && queryResult.page !== 1 && (
             <Button
-              to="#fiwareAssets"
               onClick={() => {
-                setDisplayAssets([])
-                updatePage(1)
+                handleScrollUp()
+                setDefaultParsed(initialQueryParams)
               }}
             >
               See less
@@ -131,7 +144,7 @@ export default function HomePage(): ReactElement {
         </div>
 
         <AllAssetsButton />
-      </section>
+      </div>
       <About />
     </>
   )

@@ -3,7 +3,8 @@
   height: 100%;
 }
 
-.link {
+.link,
+.emptyAsset {
   composes: box from '@shared/atoms/Box.module.css';
   font-size: var(--font-size-small);
   height: 100%;
@@ -77,4 +78,41 @@ a.link:focus {
   border-left: none;
   padding-left: 0;
   margin-left: 0;
+}
+
+/* placeholder */
+.emptyAsset {
+  height: 212px;
+}
+.placeholderHeader,
+.placeholderBody,
+.placeholderFooter {
+  background-color: var(--teaser-border-color);
+  border-radius: var(--teaser-border-radius);
+  margin-bottom: calc(var(--spacer) / 4);
+  height: 20px; /* Adjust as needed */
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.placeholderBody {
+  flex-grow: 1;
+  margin-bottom: calc(var(--spacer) / 4);
+}
+
+.placeholderFooter {
+  height: 20px;
+  width: 100px;
+  margin-top: auto;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: var(--teaser-border-color);
+  }
+  50% {
+    background-color: var(--teaser-background);
+  }
+  100% {
+    background-color: var(--teaser-border-color);
+  }
 }

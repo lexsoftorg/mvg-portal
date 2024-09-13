@@ -1,4 +1,4 @@
-import AssetTeaser from '@shared/AssetTeaser'
+import AssetTeaser, { AssetPlaceholder } from '@shared/AssetTeaser'
 import { ReactElement, useEffect, useState } from 'react'
 import Pagination from '@shared/Pagination'
 import styles from './index.module.css'
@@ -9,7 +9,6 @@ import AssetType from '../AssetType'
 import { getServiceByName } from '@utils/ddo'
 import AssetViewSelector, { AssetViewOptions } from './AssetViewSelector'
 import Time from '../atoms/Time'
-import Loader from '../atoms/Loader'
 import NetworkName from '../NetworkName'
 import { useUserPreferences } from '../../../@context/UserPreferences'
 
@@ -81,6 +80,7 @@ const tableColumns: TableOceanColumn<AssetExtended>[] = [
 export declare type AssetListProps = {
   assets: AssetExtended[]
   showPagination: boolean
+  defaultAssetNumber?: number
   page?: number
   totalPages?: number
   isLoading?: boolean
@@ -96,6 +96,7 @@ export declare type AssetListProps = {
 export default function AssetList({
   assets,
   showPagination,
+  defaultAssetNumber,
   page,
   totalPages,
   isLoading,
@@ -127,10 +128,14 @@ export default function AssetList({
     onPageChange(selected + 1)
   }
 
-  const styleClasses = `${styles.assetList} ${className || ''}`
+  const styleClasses = `${styles.assetList}  ${className || ''}`
 
   return isLoading ? (
-    <Loader />
+    <div className={styleClasses}>
+      {Array.from({ length: defaultAssetNumber }, (_, i) => (
+        <AssetPlaceholder key={i} />
+      ))}
+    </div>
   ) : (
     <>
       {showAssetViewSelector && (
@@ -164,7 +169,7 @@ export default function AssetList({
               ))}
           </>
         ) : (
-          <div className={styles.empty}>No results found</div>
+          <div>No results found</div>
         )}
       </div>
       {showPagination && (
