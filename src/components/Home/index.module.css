@@ -1,6 +1,6 @@
 .section {
-  margin-top: calc(var(--spacer) * 3.5);
-  margin-bottom: calc(var(--spacer) * 3.5);
+  margin-top: calc(var(--spacer) * 3);
+  margin-bottom: calc(var(--spacer) * 3);
 }
 
 .section h3 {
@@ -11,6 +11,7 @@
 .section [class*='button'],
 .allAssetsButton {
   margin-top: var(--spacer);
+  font-weight: var(--font-weight-base);
 }
 
 .section #buttonsGroup {

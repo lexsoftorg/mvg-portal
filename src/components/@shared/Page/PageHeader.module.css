@@ -1,20 +1,19 @@
 .header {
+  display: block;
   margin-bottom: calc(var(--spacer) * 2);
 }
 
 .isHome {
   padding: calc(var(--spacer) * 3) 0;
+
   background-color: var(--blue-500);
   background-image: url('/images/Banner.svg');
+  background-size: 70% 40%;
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: bottom center;
 
   max-width: none;
-  min-height: calc(var(--spacer) * 20);
-}
-
-.headerBg {
-  position: absolute;
+  min-height: 550px;
 }
 
 .title {
@@ -95,4 +94,11 @@
 
 .networkAlert {
   margin: var(--spacer) auto;
+}
+
+@media screen and (max-width: 860px) {
+  .isHome {
+    background-image: none;
+    min-height: fit-content;
+  }
 }
