@@ -105,7 +105,7 @@ export default function HomePage(): ReactElement {
       )}
 
       <div ref={refScrollUp} className={styles.section}>
-        <h3>FIWARE Assets</h3>
+        <h3>FIWARE ASSETS</h3>
         <div id={styles.assetsList}>
           <AssetList
             assets={displayedAssets}
